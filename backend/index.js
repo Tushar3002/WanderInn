@@ -1,15 +1,27 @@
 import express from "express";
 import dotenv from "dotenv";
+import connectDb from "./config/db.js";
+import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
+
 dotenv.config();
 
-let port = process.env.PORT || 6000;
+const port = process.env.PORT || 6000;
+const app = express();
 
-let app=express();
+app.use(express.json());
+app.use(cookieParser());
+app.use("/api/auth", authRouter);
 
-app.get("/",(req,res)=>{
-    res.send("Hello Server")
-})
+const startServer = async () => {
+  try {
+    await connectDb(); // ✅ connect to DB first
+    app.listen(port, () => {
+      console.log(`✅ Server running on http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error.message);
+  }
+};
 
-app.listen(port,()=>{
-    console.log(`Listening on Server ${port}`)
-})
+startServer();
