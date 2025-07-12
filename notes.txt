@@ -13,3 +13,12 @@ controllers > auth.controller.js
 routes>auth.routes.js
 
 config>token
+
+
+in Frontend 
+
+npm create vite@latest
+
+npm install -D tailwindcss@3 postcss autoprefixer
+npx tailwindcss init -p
+
