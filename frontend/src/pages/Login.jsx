@@ -31,7 +31,7 @@ function Login() {
           }
       }
     return (
-      <div className='w-[100vw] h-[100vh] flex items-center justify-center'>
+      <div className='w-[100vw] h-[100vh] flex items-center justify-center relative' >
         <div onClick={()=>navigate("/")} className='w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[10%] left-[20px] rounded-[50%] flex items-center justify-center '>
             <FaArrowLeft className='w-[22px] h-[22px] text-[white]' />
         </div>
