@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Home from './pages/Home'
 import ListingPage1 from './pages/listingPage1'
+import ListingPage2 from './pages/ListingPage2'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/login' element={<Login />}/>
         <Route path='/signup' element={<SignUp />}/>
         <Route path='/listingpage1' element={<ListingPage1 />}/>
+        <Route path='/listingpage2' element={<ListingPage2 />}/>
       </Routes>
     </>
   )
