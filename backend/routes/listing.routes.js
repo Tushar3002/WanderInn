@@ -1,7 +1,7 @@
 import express from "express"
-import isAuth from "../middleware/isAuth"
-import upload from "../middleware/multer"
-import { addListing } from "../controllers/listing.controller"
+import isAuth from "../middleware/isAuth.js"
+import upload from "../middleware/multer.js"
+import { addListing } from "../controllers/listing.controller.js"
 
 let listingRouter = express.Router()
 

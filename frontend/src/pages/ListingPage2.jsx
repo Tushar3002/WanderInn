@@ -18,8 +18,8 @@ function ListingPage2() {
     let navigate=useNavigate()
     let {category,setCategory} =useContext(listingDataContext)
   return (
-    <div className='w-[100%] h-[100vh] bg-white flex items-center justify-center relative overflow-auto relative'>
-       <div onClick={()=>navigate("/listing1")} className='w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[5%] left-[20px] rounded-[50%] flex items-center justify-center '>
+    <div className='w-[100%] h-[100vh] bg-white flex items-center justify-center overflow-auto relative'>
+       <div onClick={()=>navigate("/listingpage1")} className='w-[50px] h-[50px] bg-[red] cursor-pointer absolute top-[5%] left-[20px] rounded-[50%] flex items-center justify-center '>
             <FaArrowLeft className='w-[22px] h-[22px] text-[white]' />
        </div>
         <div className='w-[200px] h-[50px] text-[20px] bg-[#f14242] text-[white] flex items-center 

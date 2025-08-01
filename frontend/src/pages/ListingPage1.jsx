@@ -8,10 +8,10 @@ function ListingPage1() {
   let {
     title, setTitle,
         description, setDescription,
-        frontEndImagel, setFrontEndImagel,
+        frontEndImage1, setFrontEndImage1,
         frontEndImage2, setFrontEndImage2,
         frontEndImage3, setFrontEndImage3,
-        backEndImagel, setBackEndImagel,
+        backEndImage1, setBackEndImage1,
         backEndImage2, setBackEndImage2,
         backEndImage3, setBackEndImage3,
         rent, setRent,
@@ -20,21 +20,39 @@ function ListingPage1() {
         category, setCategory
   }=useContext(listingDataContext)
 
-  const handleImage1=(e)=>{
-    let file=e.target.file[0]
-    setBackEndImagel(file)
-    setFrontEndImagel(URL.createObjectURL(file))
+  const handleImage1 = (e) => {
+  console.log("handleImage1 e.target.files:", e.target.files);
+  if (e.target.files && e.target.files.length > 0) {
+    let file = e.target.files[0];
+    setBackEndImage1(file);
+    setFrontEndImage1(URL.createObjectURL(file));
+  } else {
+    console.error("No files found in handleImage1");
   }
-  const handleImage2=(e)=>{
-    let file=e.target.file[0]
-    setBackEndImage2(file)
-    setFrontEndImage2(URL.createObjectURL(file))
+};
+
+const handleImage2 = (e) => {
+  console.log("handleImage2 e.target.files:", e.target.files);
+  if (e.target.files && e.target.files.length > 0) {
+    let file = e.target.files[0];
+    setBackEndImage2(file);
+    setFrontEndImage2(URL.createObjectURL(file));
+  } else {
+    console.error("No files found in handleImage1");
   }
-  const handleImage3=(e)=>{
-    let file=e.target.file[0]
-    setBackEndImage3(file)
-    setFrontEndImage3(URL.createObjectURL(file))
+};
+
+const handleImage3 = (e) => {
+  console.log("handleImage3 e.target.files:", e.target.files);
+  if (e.target.files && e.target.files.length > 0) {
+    let file = e.target.files[0];
+    setBackEndImage3(file);
+    setFrontEndImage3(URL.createObjectURL(file));
+  } else {
+    console.error("No files found in handleImage3");
   }
+};
+
   return (
     <div className='w-[100%] h-[100vh] bg-white flex items-center justify-center relative overflow-auto'>
       <form action="" className='max-w-[900px] w-[90%] h-[550px] flex items-center justify-start 

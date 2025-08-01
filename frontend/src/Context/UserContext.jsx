@@ -30,12 +30,10 @@ function UserContext({children}) {
         userData,setUserData
     }
   return (
-    <div>
       <userDataContext.Provider value={value}>
         {children}
       </userDataContext.Provider>
-    </div>
-  )
+      )
 }
 
 export default UserContext
