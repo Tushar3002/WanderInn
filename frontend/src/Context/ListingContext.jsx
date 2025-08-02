@@ -1,10 +1,12 @@
 import axios from 'axios'
 import React, { useState, useContext, createContext } from 'react'
 import { authDataContext } from './authcontext'
+import { useNavigate } from 'react-router-dom'
 
 export const listingDataContext = createContext() 
 
 function ListingContext({children}) {
+    let navigate=useNavigate()
     let [title, setTitle] = useState("")
     let [description, setDescription] = useState("")
     let [frontEndImage1, setFrontEndImage1] = useState(null)
@@ -17,9 +19,12 @@ function ListingContext({children}) {
     let [city, setCity] = useState("")
     let [landmark, setLandmark] = useState("")
     let [category, setCategory] = useState("")
+    let [adding,setAdding] = useState(false)
+    let [listingData,setListingData] = useState([])
     let {serverUrl} = useContext(authDataContext)
 
     const handleAddListing = async () => {
+        setAdding(true)
         try {
             let formData = new FormData()
             formData.append("title", title)
@@ -33,7 +38,30 @@ function ListingContext({children}) {
             formData.append("category", category)
 
             const result = await axios.post(serverUrl + "/api/listing/add", formData, { withCredentials: true })
+            setAdding(false)
             console.log(result)
+            navigate("/")
+            setTitle("")
+            setDescription(null)
+            setFrontEndImage1(null)
+            setFrontEndImage2(null)
+            setFrontEndImage3(null)
+            setBackEndImage1(null)
+            setBackEndImage2(null)
+            setBackEndImage3(null)
+            setRent("")
+            setCity("")
+            setLandmark("")
+            setCategory("")
+        } catch (error) {
+            setAdding(true)
+            console.log(error)
+        }
+    }
+    const getListing = async()=>{
+        try {
+            let result =await axios.get(serverUrl + "/api/listing/get",{withCredentials:true})
+            setListingData(result.data)
         } catch (error) {
             console.log(error)
         }
@@ -52,7 +80,10 @@ function ListingContext({children}) {
         city, setCity,
         landmark, setLandmark,
         category, setCategory,
-        handleAddListing
+        handleAddListing,
+        adding,setAdding,
+        listingData,setListingData,
+        getListing
     }
 
     return (

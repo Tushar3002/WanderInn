@@ -17,7 +17,9 @@ function ListingPage3() {
           rent, setRent,
           city, setCity,
           landmark, setLandmark,
-          category, setCategory
+          category, setCategory,
+          handleAddListing,
+          adding,setAdding
     }=useContext(listingDataContext)
   return (
     <div className="w-[100%] h-[100vh] bg-[white] flex items-center justify-center gap-[10px] flex-col overflow-auto relative">
@@ -49,6 +51,21 @@ function ListingPage3() {
           <img src={frontEndImage3} alt="" className="w-full h-full object-cover" />
         </div>
       </div>
+      
+    </div>
+    <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
+      {`${title.toUpperCase()} ${category.toUpperCase()},${landmark.toUpperCase()}`}
+    </div>
+    <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
+      {`${description.toUpperCase()} `}
+    </div>
+    <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
+      {`${rent.toUpperCase()} `}
+    </div>
+
+    <div className="w-[95%] h-[50px] flex items-center justify-start px-[110px]">
+      <button className="px-[50px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
+            rounded-lg" onClick={handleAddListing} disabled={adding}>{adding? "adding..." : "Add Listing" }</button>
     </div>
     </div>
   );

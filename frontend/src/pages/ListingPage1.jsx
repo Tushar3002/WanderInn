@@ -69,7 +69,7 @@ const handleImage3 = (e) => {
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="title" className='text-[20px] '>Title</label>
               <input type="text" id="title" className='w-[90%] h-[40px] border-[2px] border-[#555656]
-               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setTitle(e.target.value)} value={title}/>
+               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setTitle(e.target.value)} value={title} placeholder='Give a Title'/>
             </div>
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="des" className='text-[20px] '>Description</label>
@@ -101,13 +101,13 @@ const handleImage3 = (e) => {
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="rent" className='text-[20px] '>Rent</label>
               <input type="text" id="rent" className='w-[90%] h-[40px] border-[2px] border-[#555656]
-               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setRent(e.target.value)} value={rent}/>
+               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setRent(e.target.value)} value={rent} placeholder='RS ____/day'/>
             </div>
 
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="city" className='text-[20px] '>City</label>
               <input type="text" id="city" className='w-[90%] h-[40px] border-[2px] border-[#555656]
-               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setCity(e.target.value)} value={city}/>
+               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setCity(e.target.value)} value={city} placeholder='City,Country'/>
             </div>
 
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
