@@ -1,7 +1,7 @@
 import express from "express"
 import isAuth from "../middleware/isAuth.js"
 import upload from "../middleware/multer.js"
-import { addListing, getListing } from "../controllers/listing.controller.js"
+import { addListing, findListing, getListing } from "../controllers/listing.controller.js"
 
 let listingRouter = express.Router()
 
@@ -12,5 +12,6 @@ listingRouter.post("/add",isAuth,upload.fields([
 ]),addListing)
 
 listingRouter.get("/get",getListing)
+listingRouter.get("/findlistingbyid/:id",isAuth,findListing)
 
 export default listingRouter

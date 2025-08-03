@@ -74,7 +74,7 @@ const handleImage3 = (e) => {
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="des" className='text-[20px] '>Description</label>
               <textarea name="des" id="des" className='w-[90%] h-[80px] border-[2px] border-[#555656]
-               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setDescription(e.target.value)} value={description}></textarea>
+               rounded-lg text-[18px] px-[20px]' required onChange={(e)=>setDescription(e.target.value)} value={description || ''}></textarea>
             </div>
             <div className='w-[90%] flex items-start justify-start flex-col gap-[10px]'>
               <label htmlFor="img1" className='text-[20px] '>Image 1</label>

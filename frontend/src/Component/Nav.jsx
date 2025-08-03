@@ -16,15 +16,20 @@ import { useNavigate } from "react-router-dom";
 import { authDataContext } from "../Context/authcontext";
 import axios from "axios";
 import { userDataContext } from "../Context/UserContext";
+import { listingDataContext } from "../Context/ListingContext";
 function Nav() {
   let [showpopup, setShowpopup] = useState(false);
   let {userData,setUserData}=useContext(userDataContext)
   let navigate=useNavigate()
   let {serverUrl} = useContext(authDataContext)
+  let [cate,setCate]=useState()
+  let {listingData,setListingData,setNewListData,newListData}=useContext(listingDataContext)
+  
 
   const handleLogout = async()=>{
     try {
       let result =await axios.post(serverUrl + "/api/auth/logout", {}, { withCredentials: true });
+      
 
       setUserData(null)
       console.log(result)
@@ -32,8 +37,17 @@ function Nav() {
       console.log(error)
     }
   }
+  const handleCategory = (category)=>{
+    setCate(category)
+    if(category=="trending"){
+      setNewListData(listingData)
+    }else{
+      setNewListData(listingData.filter((list)=>list.category==category))
+    }
+    
+  }
   return (
-    <div>
+    <div className="fixed top-0 bg-[white]">
       <div className="w-[100vw] min-h-[80px] border-b-[1px] border-[#dcdcdc] px-[40px] flex items-center justify-between md:px-[40px] ">
         <div>
           <img src={logo} alt="" className="w-[130px]" />
@@ -70,14 +84,14 @@ function Nav() {
                 {!userData && <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=>{navigate("/login");setShowpopup(false)}}>
                   Login
                 </li>}
-                {userData && <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=>{handleLogout;setShowpopup(false)}}>
+                {userData && <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=>{handleLogout();setShowpopup(false)}}>
                   Logout
                 </li>}
                 <div className="w-[100%] h-[1px] bg-[#c1c0c0]"></div>
                 <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=>{navigate("/listingpage1");setShowpopup(false)}}>
                   List Your Home
                 </li> 
-                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer">
+                <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer" onClick={()=>{navigate("/mylisting");setShowpopup(false)}}>
                   My Listings
                 </li>
                 <li className="w-[100%] px-[15px] py-[10px] hover:bg-[#f4f3f3] cursor-pointer">
@@ -103,39 +117,42 @@ function Nav() {
         </div>
       </div>
       <div className="w-[100vw] h-[85px] bg-white flex items-center justify-start cursor-pointer gap-[40px] overflow-auto md:justify-center px-[15px]">
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className="flex items-center justify-center flex-col hover:border-b-[1px]
+         border-[#a6a5a5] text-[13px]" onClick={()=>{handleCategory("trending");setCate("")}}>
           <MdWhatshot className="w-[30px] h-[30px] text-black" />
           <h3>Trending</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col 
+          hover:border-b-[1px] border-[#a6a5a5] text-[13px] 
+          ${cate=="villa"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("villa")}>
           <GiFamilyHouse className="w-[30px] h-[30px] text-black" />
           <h3>Villa</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="room"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("room")}>
           <MdBedroomParent className="w-[30px] h-[30px] text-black" />
           <h3>Room</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] text-nowrap">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="poolHouse"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("poolHouse")}>
           <MdOutlinePool className="w-[30px] h-[30px] text-black" />
           <h3>Pool House</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="cabin"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("cabin")}>
           <GiWoodCabin className="w-[30px] h-[30px] text-black" />
           <h3>Cabin</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="shop"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("shop")}>
           <SiHomeassistantcommunitystore className="w-[30px] h-[30px] text-black" />
           <h3>Shop</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="pg"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("pg")}>
           <IoBedOutline className="w-[30px] h-[30px] text-black" />
           <h3>PG</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] text-nowrap">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="farmHouse"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("farmHouse")}>
           <FaTreeCity className="w-[30px] h-[30px] text-black" />
           <h3>Farm House</h3>
         </div>
-        <div className="flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px]">
+        <div className={`flex items-center justify-center flex-col hover:border-b-[1px] border-[#a6a5a5] text-[13px] ${cate=="flat"?"border-b-[1px] border-[#a6a5a5]":""}`} onClick={()=>handleCategory("flat")}>
           <BiBuildingHouse className="w-[30px] h-[30px] text-black" />
           <h3>Flat</h3>
         </div>

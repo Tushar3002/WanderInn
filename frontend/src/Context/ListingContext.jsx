@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 import { authDataContext } from './authcontext'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,6 +21,10 @@ function ListingContext({children}) {
     let [category, setCategory] = useState("")
     let [adding,setAdding] = useState(false)
     let [listingData,setListingData] = useState([])
+    let [newListData,setNewListData]=useState([])
+    let [cardDetails,setCardDetails]=useState(null)
+
+
     let {serverUrl} = useContext(authDataContext)
 
     const handleAddListing = async () => {
@@ -58,14 +62,28 @@ function ListingContext({children}) {
             console.log(error)
         }
     }
-    const getListing = async()=>{
+    const handleViewCard=async(id)=>{
         try {
-            let result =await axios.get(serverUrl + "/api/listing/get",{withCredentials:true})
-            setListingData(result.data)
+            let result = await axios.get(serverUrl + `/api/listing/findlistingbyid/${id}`,{withCredentials:true})
+            console.log(result.data)
+            setCardDetails(result.data)
+            navigate("/viewcard")
         } catch (error) {
             console.log(error)
         }
     }
+    const getListing = async()=>{
+        try {
+            let result =await axios.get(serverUrl + "/api/listing/get",{withCredentials:true})
+            setListingData(result.data)
+            setNewListData(result.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(()=>{
+        getListing()
+    },[adding])
 
     let value = {
         title, setTitle,
@@ -83,7 +101,10 @@ function ListingContext({children}) {
         handleAddListing,
         adding,setAdding,
         listingData,setListingData,
-        getListing
+        getListing,
+        newListData,setNewListData,
+        handleViewCard,
+        cardDetails,setCardDetails
     }
 
     return (

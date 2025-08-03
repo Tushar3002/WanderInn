@@ -5,7 +5,7 @@ let storage = multer.diskStorage({
         cb(null,"./public")
     },
     filename:(req,file,cb)=>{
-        cd(null,file.originalname)
+        cb(null,file.originalname)
     }
 })
 

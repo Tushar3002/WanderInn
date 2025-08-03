@@ -31,7 +31,8 @@ function ListingPage3() {
         <FaArrowLeft className="w-[22px] h-[22px] text-[white]" />
       </div>
       <div className="w-[95%] flex items-start justify-start text-[25px] md:w-[80%] mb-[10px]">
-        <h1 className="text-[20px] text-[#272727] md:text-[30px] text-ellipsis text-nowrap overflow-hidden">
+        <h1 className="text-[20px] text-[#272727] md:text-[30px] text-ellipsis text-nowrap overflow-hidden
+        px-[70px] md:px-[0px]">
           {`In ${landmark.toUpperCase()} , ${city.toUpperCase()}`}
         </h1>
       </div>
@@ -54,7 +55,8 @@ function ListingPage3() {
       
     </div>
     <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
-      {`${title.toUpperCase()} ${category.toUpperCase()},${landmark.toUpperCase()}`}
+      {`${(title || "").toUpperCase()} ${(category || "").toUpperCase()}, ${(landmark || "").toUpperCase()}`}
+
     </div>
     <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
       {`${description.toUpperCase()} `}
