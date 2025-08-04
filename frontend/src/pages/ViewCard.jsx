@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaArrowLeft } from "react-icons/fa";
 
 function ViewCard() {
   return (
@@ -39,7 +40,7 @@ function ViewCard() {
     
         </div>
         <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
-          {`${description.toUpperCase()} `}
+          
         </div>
         <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
           {`${rent.toUpperCase()} `}
