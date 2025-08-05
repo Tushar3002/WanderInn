@@ -65,3 +65,35 @@ export const findListing = async(req,res)=>{
         res.status().json(`findlistening error ${error}`)
     }
 }
+
+export const updateListing = async(req,res)=>{
+  try {
+    let id = req.params;
+    let { title, description, rent, city, landmark, category } = req.body;
+    console.log("Request files: ", req.files);
+    let image1 = await uploadOnCloudinary(req.files.image1[0].path);
+    let image2 = await uploadOnCloudinary(req.files.image2[0].path);
+    let image3 = await uploadOnCloudinary(req.files.image3[0].path);
+
+    let listing = await Listing.findByIdAndUpdate(id,{
+      title,
+      description,
+      rent,
+      city,
+      landmark,
+      category,
+      image1,
+      image2,
+      image3,
+      host
+    },{new:true});
+
+    
+
+    // ✅ Only one response:
+    return res.status(201).json(listing);
+  
+  } catch (error) {
+    return res.status(201).json({message:"Update"})
+  }
+}
