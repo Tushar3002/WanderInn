@@ -68,12 +68,16 @@ export const findListing = async(req,res)=>{
 
 export const updateListing = async(req,res)=>{
   try {
-    let id = req.params;
+    let image1;
+    let image2;
+    let image3;
+    let {id} = req.params;
     let { title, description, rent, city, landmark, category } = req.body;
     console.log("Request files: ", req.files);
-    let image1 = await uploadOnCloudinary(req.files.image1[0].path);
-    let image2 = await uploadOnCloudinary(req.files.image2[0].path);
-    let image3 = await uploadOnCloudinary(req.files.image3[0].path);
+    if(req.files.image1) 
+      {image1 = await uploadOnCloudinary(req.files.image1[0].path)}
+    if(req.files.image2) {image2 = await uploadOnCloudinary(req.files.image2[0].path)}
+    if(req.files.image3) {image3 = await uploadOnCloudinary(req.files.image3[0].path)}
 
     let listing = await Listing.findByIdAndUpdate(id,{
       title,
@@ -85,7 +89,7 @@ export const updateListing = async(req,res)=>{
       image1,
       image2,
       image3,
-      host
+      
     },{new:true});
 
     
@@ -94,6 +98,22 @@ export const updateListing = async(req,res)=>{
     return res.status(201).json(listing);
   
   } catch (error) {
-    return res.status(201).json({message:"Update"})
+    return res.status(500).json({message:`Update Listing Error ${error}`})
+  }
+}
+
+export const deleteListing = async(req,res)=>{
+  try {
+    let {id} = req.params;
+    let listing=await Listing.findByIdAndDelete(id)
+    let user=await User.findByIdAndUpdate(listing.host,{
+      $pull:{listing:listing._id}
+    },{new:true})
+    if(!user){
+      return res.status(404).json({message:"user not found"})
+    }
+    return res.status(201).json({message:"Listing Deleted"})
+  } catch (error) {
+    return res.status(201).json({message:`DeleteListing Error ${error}`})
   }
 }

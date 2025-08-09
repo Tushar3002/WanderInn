@@ -19,7 +19,7 @@ const UserSchema=new mongoose.Schema({
     }],
     booking:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Booking"
+        ref:"Listing"
     }]
 },{timestamps:true})
 
