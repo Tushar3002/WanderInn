@@ -59,10 +59,10 @@ function ListingPage3() {
 
     </div>
     <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
-      {`${description.toUpperCase()} `}
+      {description ? description.toUpperCase() : ""}
     </div>
     <div className="w-[95%] flex items-start justify-start text-[18px] md:w-[80%] md:text-[25px] ">
-      {`${rent.toUpperCase()} `}
+      {typeof rent === "string" ? rent.toUpperCase() : String(rent || "")}
     </div>
 
     <div className="w-[95%] h-[50px] flex items-center justify-start px-[110px]">

@@ -1,46 +1,48 @@
 import uploadOnCloudinary from "../config/cloudinary.js";
 import User from "../model/user.model.js";
 import Listing from "../model/listing.model.js";
+import path from "path";
+
+
+// controllers/listing.controller.js (addListing)
+// controllers/listing.controller.js (snippet)
 
 
 export const addListing = async (req, res) => {
   try {
-    let host = req.userId;
-    let { title, description, rent, city, landmark, category } = req.body;
-    console.log("Request files: ", req.files);
-    let image1 = await uploadOnCloudinary(req.files.image1[0].path);
-    let image2 = await uploadOnCloudinary(req.files.image2[0].path);
-    let image3 = await uploadOnCloudinary(req.files.image3[0].path);
+    const host = req.userId;
+    const { title, description, rent, city, landmark, category } = req.body;
 
-    let listing = await Listing.create({
-      title,
-      description,
-      rent,
-      city,
-      landmark,
-      category,
-      image1,
-      image2,
-      image3,
-      host
+    if (!req.files) return res.status(400).json({ message: "No files provided" });
+
+    // Prepare upload promises for only existing fields
+    const keys = ["image1", "image2", "image3"];
+    const uploadPromises = keys.map((k) => {
+      if (req.files[k] && req.files[k][0]) {
+        const p = path.resolve(req.files[k][0].path);
+        return uploadOnCloudinary(p);
+      }
+      return Promise.resolve(null);
     });
 
-    let user = await User.findByIdAndUpdate(
-      host,
-      { $push: { listing: listing._id } },
-      { new: true }
-    );
+    const [image1, image2, image3] = await Promise.all(uploadPromises);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    const listing = await Listing.create({
+      title, description, rent, city, landmark, category,
+      image1, image2, image3, host
+    });
 
-    // ✅ Only one response:
-    res.status(201).json(listing);
+    const user = await User.findByIdAndUpdate(host, { $push: { listing: listing._id } }, { new: true });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    return res.status(201).json(listing);
   } catch (error) {
-    res.status(500).json({ message: `AddListing Error ${error.message}` });
+    console.error("addListing error:", error);
+    return res.status(500).json({ message: `AddListing Error ${error.message}` });
   }
 };
+
+
 
 
 

@@ -1,14 +1,19 @@
-import multer from 'multer';
+// middleware/multer.js
+import multer from "multer";
+import path from "path";
 
-let storage = multer.diskStorage({
-    destination:(req,file,cb)=>{
-        cb(null,"./public")
-    },
-    filename:(req,file,cb)=>{
-        cb(null,file.originalname)
-    }
-})
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // absolute path to backend/public
+    cb(null, path.resolve("public"));
+  },
+  filename: (req, file, cb) => {
+    // remove spaces and prefix with timestamp to avoid collisions
+    const safeName = file.originalname.replace(/\s+/g, "_");
+    cb(null, `${Date.now()}-${safeName}`);
+  },
+});
 
-const upload=multer({storage})
+const upload = multer({ storage });
 
-export default upload
+export default upload;

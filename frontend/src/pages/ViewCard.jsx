@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
 
 import { listingDataContext } from '../Context/ListingContext';
@@ -14,6 +14,7 @@ function ViewCard() {
   let {cardDetails} = useContext(listingDataContext)
   let {userData} = useContext(userDataContext)
   let [updatePopUp,setUpdatePopUp]=useState(false)
+  let [bookingPopUp,setBookingPopUp]=useState(false)
   let [title, setTitle] = useState(cardDetails.title)
       let [description, setDescription] = useState(cardDetails.description)
       let [backEndImage1, setBackEndImage1] = useState(null)
@@ -25,6 +26,7 @@ function ViewCard() {
       let {serverUrl}=useContext(authDataContext)
       let {updating,setUpdating}=useContext(listingDataContext)
       let {deleting,setDeleting}=useContext(listingDataContext)
+      let [minDate,setMinDate]=useState("")
 
   const handleUpdateListing=async()=>{
     setUpdating(true)
@@ -99,6 +101,11 @@ const handleImage3 = (e) => {
   }
 };
 
+  useEffect(()=>{
+    let today=new Date().toISOString().split('T')[0]
+    setMinDate(today)
+  },[])
+
   return (
     <div className="w-[100%] h-[100vh] bg-[white] flex items-center justify-center gap-[10px] flex-col overflow-auto relative">
           <div
@@ -147,7 +154,7 @@ const handleImage3 = (e) => {
           {cardDetails.host == userData._id && <button className="px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
                 rounded-lg text-nowrap" onClick={()=>setUpdatePopUp(prev => !prev)}>Edit Listing</button>}
           {cardDetails.host != userData._id && <button className="px-[30px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
-                rounded-lg text-nowrap" >Reserve</button>}
+                rounded-lg text-nowrap" onClick={()=>setBookingPopUp(prev => !prev)}>Reserve</button>}
         </div>
 
             {/* Update Listing Page */}
@@ -218,6 +225,56 @@ const handleImage3 = (e) => {
                         </div>
                        
                    </form>
+            </div>}
+            {bookingPopUp && <div className='w-[100%] min-h-[100%] flex items-center justify-center flex-col
+             gap-[30px] bg-[#ffffffcd] absolute top-[0px] z-[100] backdrop-blur-sm md:flex-row md:gap-[100px]'>
+              <RxCross2 onClick={() => setBookingPopUp(false)}
+              className="w-[30px] h-[30px] bg-[red] cursor-pointer absolute top-[6%] left-[25px]
+              rounded-[50%] flex items-center justify-center "/>
+              
+              <form className='max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f7fbfcfe] p-[20px]
+              rounded-lg flex items-center justify-start flex-col gap-[10px] border-[1px] border-[#dedddd]'>
+                <h1 className='w-[100%] flex items-center justify-center py-[10px] text-[25px] 
+                border-b-[1px] border-[#a3a3a3]'>Confirm and Book</h1>
+                <div className='w-[100%] h-[70%] mt-[10px] rounded-lg p-[10px]'>
+                  <h3 className='text-[19px] font-semibold'>Your Trip</h3>
+                  <div className='w-[90%] flex items-start justify-start gap-[24px] mt-[20px] md:items-start
+                   md:justify-center flex-col md:flex-row'>
+                  <label htmlFor="checkIn" className='text-[18px] md:text-[20px]'>CheckIn</label>
+                  <input type="date" min={minDate} id="checkIn" className='w-[200px] h-[40px] border-2 border-[#555656]
+                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required />
+                  </div>
+
+                  <div className='w-[90%] flex items-start justify-start gap-[10px] mt-[40px] md:items-start
+                   md:justify-center flex-col md:flex-row'>
+                  <label htmlFor="checkOut" className='text-[18px] md:text-[20px]'>CheckOut</label>
+                  <input type="date" min={minDate} id="checkOut" className='w-[200px] h-[40px] border-2 border-[#555656]
+                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required />
+                  </div>
+                </div>
+                <div className='w-[100%] flex items-center justify-center'>
+                  <button className='px-[10px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
+                  rounded-lg md:text-[18px] text-nowrap'> Book Now</button>
+                        
+                </div>
+              </form>
+              <div className='max-w-[450px] w-[90%] h-[450px] bg-[#f7fbfcfe] p-[20px]
+              rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#e2e1e1]'>
+                <div className='w-[95%] h-[30%] border-[1px] border-[#dedddd]  rounded-lg flex items-center 
+                justify-center gap-[8px] p-[20px] overflow-hidden'>
+                  <div className='w-[70px] h-[90px] flex items-center justify-center flex-shrink-0 rounded-lg md:w-[100%] 
+                  md:h-[100%]'>
+                    <img className='w-[50%] h-[100px] rounded-lg ' src={cardDetails.image1} alt="" />
+                  
+                    <div className='w-[80%] h-[100px] gap-[5px] px-3'>
+                      <h1 className='w-[90%] truncate'>{`IN ${cardDetails.landmark.toUpperCase()},${cardDetails.city.toUpperCase()}`}</h1>
+                      <h1>{cardDetails.title.toUpperCase()}</h1>
+                      <h1>{cardDetails.category.toUpperCase()}</h1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>}
         </div>
   )
