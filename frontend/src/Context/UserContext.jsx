@@ -27,7 +27,8 @@ function UserContext({children}) {
         getCurrentUser()
     },[])
     let value={
-        userData,setUserData
+        userData,
+        setUserData,getCurrentUser
     }
   return (
       <userDataContext.Provider value={value}>

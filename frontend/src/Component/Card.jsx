@@ -4,7 +4,7 @@ import { userDataContext } from '../Context/UserContext'
 import { listingDataContext } from '../Context/ListingContext'
 import { FaStar } from "react-icons/fa";
 
-function Card({title,landmark,image1,image2,image3,rent,city,id,ratings}) {
+function Card({title,landmark,image1,image2,image3,rent,city,id,ratings,isBooked,host}) {
   let navigate=useNavigate()
   let {userData} = useContext(userDataContext)
   let {handleViewCard} = useContext(listingDataContext)

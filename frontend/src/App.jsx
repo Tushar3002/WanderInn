@@ -11,6 +11,7 @@ import { useContext } from 'react'
 import { userDataContext } from './Context/UserContext'
 import MyListing from './pages/MyListing'
 import ViewCard from './pages/ViewCard'
+import MyBooking from './pages/MyBooking'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path='/listingpage3' element={userData != null ? <ListingPage3 /> : <Navigate to={"/"}/>}/>
         <Route path='/mylisting' element={userData != null ? <MyListing /> : <Navigate to={"/"}/>}/>
         <Route path='/viewcard' element={userData != null ? <ViewCard /> : <Navigate to={"/"}/>}/>
+        <Route path='/mybooking' element={userData != null ? <MyBooking /> : <Navigate to={"/"}/>}/>
       
       </Routes>
     </>

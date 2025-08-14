@@ -32,7 +32,8 @@ function MyListing() {
         <div className='w-[100%] h-[90%] flex items-center justify-center gap-[25px] flex-wrap mt-[30px]'>
             {userData.listing.map((list)=>(
                       <Card key={list._id} title={list.title} landmark={list.landmark} city={list.city} image1={list.image1}
-                      image2={list.image2} image3={list.image3} rent={list.rent} id={list._id}/>
+                      image2={list.image2} image3={list.image3} rent={list.rent} id={list._id} 
+                      isBooked={list.isBooked} host={list.host} ratings={list.ratings}/>
                     ))}
         </div>  
     </div>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
-
+import { FaStar } from "react-icons/fa";
 import { listingDataContext } from '../Context/ListingContext';
 import { useNavigate } from 'react-router-dom';
 import {userDataContext} from '../Context/UserContext'
@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import { authDataContext } from '../Context/authcontext';
+import { bookingDataContext } from '../Context/BookingContext';
 
 function ViewCard() {
   let navigate=useNavigate()
@@ -27,6 +28,27 @@ function ViewCard() {
       let {updating,setUpdating}=useContext(listingDataContext)
       let {deleting,setDeleting}=useContext(listingDataContext)
       let [minDate,setMinDate]=useState("")
+      let {checkIn,setCheckIn,
+        checkOut,setCheckOut,
+        total,setTotal,
+        night,setNight,handleBooking}=useContext(bookingDataContext)
+
+        useEffect(()=>{
+          if(checkIn && checkOut){
+            let inDate=new Date(checkIn)
+            let outDate=new Date(checkOut)
+            let n=(outDate - inDate) / (24*60*60*1000)
+            setNight(n)
+            let airBnbCharge = (cardDetails.rent*(7/100))
+            let tax=(cardDetails.rent*(7/100))
+
+            if(n>0){
+              setTotal((cardDetails.rent * n) + airBnbCharge + tax)
+            }else{
+              setTotal(0)
+            }
+          }
+        },[checkIn,checkOut,cardDetails.rent,total])
 
   const handleUpdateListing=async()=>{
     setUpdating(true)
@@ -233,7 +255,8 @@ const handleImage3 = (e) => {
               rounded-[50%] flex items-center justify-center "/>
               
               <form className='max-w-[450px] w-[90%] h-[450px] overflow-auto bg-[#f7fbfcfe] p-[20px]
-              rounded-lg flex items-center justify-start flex-col gap-[10px] border-[1px] border-[#dedddd]'>
+              rounded-lg flex items-center justify-start flex-col gap-[10px] border-[1px] border-[#dedddd]'
+              onSubmit={(e)=>{e.preventDefault()}}>
                 <h1 className='w-[100%] flex items-center justify-center py-[10px] text-[25px] 
                 border-b-[1px] border-[#a3a3a3]'>Confirm and Book</h1>
                 <div className='w-[100%] h-[70%] mt-[10px] rounded-lg p-[10px]'>
@@ -242,38 +265,76 @@ const handleImage3 = (e) => {
                    md:justify-center flex-col md:flex-row'>
                   <label htmlFor="checkIn" className='text-[18px] md:text-[20px]'>CheckIn</label>
                   <input type="date" min={minDate} id="checkIn" className='w-[200px] h-[40px] border-2 border-[#555656]
-                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required />
+                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required onChange={(e)=>setCheckIn(e.target.value)} value={checkIn}/>
                   </div>
 
                   <div className='w-[90%] flex items-start justify-start gap-[10px] mt-[40px] md:items-start
                    md:justify-center flex-col md:flex-row'>
                   <label htmlFor="checkOut" className='text-[18px] md:text-[20px]'>CheckOut</label>
                   <input type="date" min={minDate} id="checkOut" className='w-[200px] h-[40px] border-2 border-[#555656]
-                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required />
+                    rounded-[10px] text-[15px] md:text-[18px] px-[10px] bg-transparent' required onChange={(e)=>setCheckOut(e.target.value)} value={checkOut}/>
                   </div>
                 </div>
                 <div className='w-[100%] flex items-center justify-center'>
                   <button className='px-[10px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
-                  rounded-lg md:text-[18px] text-nowrap'> Book Now</button>
+                  rounded-lg md:text-[18px] text-nowrap'onClick={()=>handleBooking(cardDetails._id)}> Book Now</button>
                         
                 </div>
               </form>
               <div className='max-w-[450px] w-[90%] h-[450px] bg-[#f7fbfcfe] p-[20px]
-              rounded-lg flex items-center justify-center flex-col gap-[10px] border-[1px] border-[#e2e1e1]'>
-                <div className='w-[95%] h-[30%] border-[1px] border-[#dedddd]  rounded-lg flex items-center 
-                justify-center gap-[8px] p-[20px] overflow-hidden'>
-                  <div className='w-[70px] h-[90px] flex items-center justify-center flex-shrink-0 rounded-lg md:w-[100%] 
-                  md:h-[100%]'>
-                    <img className='w-[50%] h-[100px] rounded-lg ' src={cardDetails.image1} alt="" />
-                  
-                    <div className='w-[80%] h-[100px] gap-[5px] px-3'>
-                      <h1 className='w-[90%] truncate'>{`IN ${cardDetails.landmark.toUpperCase()},${cardDetails.city.toUpperCase()}`}</h1>
-                      <h1>{cardDetails.title.toUpperCase()}</h1>
-                      <h1>{cardDetails.category.toUpperCase()}</h1>
-                    </div>
-                  </div>
-                </div>
-              </div>
+rounded-lg flex flex-col items-center justify-start gap-[10px] border border-[#e2e1e1]'>
+  
+  <div className='w-full border border-[#dedddd] rounded-lg p-4 flex gap-4'>
+    
+    {/* Image */}
+    <div className='w-[80px] h-[100px] flex-shrink-0'>
+      <img src={cardDetails.image1} alt="" className='w-full h-full object-cover rounded-lg' />
+    </div>
+
+    {/* Text Section */}
+    <div className='flex flex-col gap-1 justify-center w-full overflow-hidden'>
+      <h1 className='truncate font-semibold text-[16px]'>
+        {`IN ${cardDetails.landmark.toUpperCase()}, ${cardDetails.city.toUpperCase()}`}
+      </h1>
+      <h1 className='text-[15px] font-medium'>{cardDetails.title.toUpperCase()}</h1>
+      <h1 className='text-[15px] text-gray-600'>{cardDetails.category.toUpperCase()}</h1>
+      <h1 className='flex items-center gap-1 text-[15px]'>
+        <FaStar className='text-[#eb6262]' /> {cardDetails.ratings}
+      </h1>
+    </div>
+  </div>
+
+  {/* Optional Section */}
+  <div className='w-full border border-[#dedddd] rounded-lg p-4 flex flex-col gap-2'>
+    {/* Add price breakdown or booking summary here if needed */}
+      <h1 className='text-[22px] font-semibold'>Booking Price - </h1>
+      <p className='w-[100%] flex justify-between items-center px-[20px]'>
+        <span className='font-semibold'>
+          {`RS${cardDetails.rent} X ${night} nights`}
+        </span>
+        <span>{cardDetails.rent*night}</span>
+      </p>
+      <p className='w-[100%] flex justify-between items-center px-[20px]'>
+        <span className='font-semibold'>
+          Tax
+        </span>
+        <span>{cardDetails.rent*7/100}</span>
+      </p>
+      <p className='w-[100%] flex justify-between items-center px-[20px] border-b-[1px] border-gray-500 pb-[10px]'>
+        <span className='font-semibold'>
+          WanderInn Charges
+        </span>
+        <span>{cardDetails.rent*7/100}</span>
+      </p>
+      <p className='w-[100%] flex justify-between items-center px-[20px]'>
+        <span className='font-semibold'>
+          Total
+        </span>
+        <span>{total}</span>
+      </p>
+  </div>
+</div>
+
 
             </div>}
         </div>

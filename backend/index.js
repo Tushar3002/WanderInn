@@ -24,7 +24,7 @@ app.use(cors({
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/listing", listingRouter);
-app.use("/api/boooking", bookingRouter);
+app.use("/api/booking", bookingRouter);
 
 const startServer = async () => {
   try {
