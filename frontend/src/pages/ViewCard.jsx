@@ -9,6 +9,7 @@ import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
 import { authDataContext } from '../Context/authcontext';
 import { bookingDataContext } from '../Context/BookingContext';
+import { toast } from 'react-toastify';
 
 function ViewCard() {
   let navigate=useNavigate()
@@ -31,7 +32,7 @@ function ViewCard() {
       let {checkIn,setCheckIn,
         checkOut,setCheckOut,
         total,setTotal,
-        night,setNight,handleBooking}=useContext(bookingDataContext)
+        night,setNight,handleBooking,booking}=useContext(bookingDataContext)
 
         useEffect(()=>{
           if(checkIn && checkOut){
@@ -67,6 +68,7 @@ function ViewCard() {
             setUpdating(false)
             console.log(result)
             navigate("/")
+            toast.success("Update Successful")
             setTitle("")
             setDescription(null)
             setBackEndImage1(null)
@@ -78,6 +80,7 @@ function ViewCard() {
         } catch (error) {
           setUpdating(false)
             console.log(error)
+            toast.error(error.response.data.message)
         }
   }
   const handleDeleteListing = async()=>{
@@ -87,9 +90,11 @@ function ViewCard() {
          { withCredentials: true })
       console.log(result.data)
       navigate("/")
+      toast.success("Listing Deleted")
       setDeleting(false)
     } catch (error) {
       console.log(error)
+      toast.error(error.response.data.message)
     }
   }
 
@@ -277,7 +282,7 @@ const handleImage3 = (e) => {
                 </div>
                 <div className='w-[100%] flex items-center justify-center'>
                   <button className='px-[10px] py-[10px] bg-[red] text-[white] text-[18px] md:px-[100px] 
-                  rounded-lg md:text-[18px] text-nowrap'onClick={()=>handleBooking(cardDetails._id)}> Book Now</button>
+                  rounded-lg md:text-[18px] text-nowrap'onClick={()=>{handleBooking(cardDetails._id)}} disabled={booking}> {booking?"Booking...":"Book Now"}</button>
                         
                 </div>
               </form>

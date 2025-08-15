@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
@@ -12,12 +13,14 @@ import { userDataContext } from './Context/UserContext'
 import MyListing from './pages/MyListing'
 import ViewCard from './pages/ViewCard'
 import MyBooking from './pages/MyBooking'
+import Booked from './pages/Booked'
 
 
 function App() {
   let {userData}=useContext(userDataContext)
   return (
     <>
+    <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
@@ -28,6 +31,7 @@ function App() {
         <Route path='/mylisting' element={userData != null ? <MyListing /> : <Navigate to={"/"}/>}/>
         <Route path='/viewcard' element={userData != null ? <ViewCard /> : <Navigate to={"/"}/>}/>
         <Route path='/mybooking' element={userData != null ? <MyBooking /> : <Navigate to={"/"}/>}/>
+        <Route path='/booked' element={userData != null ? <Booked /> : <Navigate to={"/booked"}/>}/>
       
       </Routes>
     </>

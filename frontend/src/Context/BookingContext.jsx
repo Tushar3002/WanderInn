@@ -3,6 +3,8 @@ import { authDataContext } from './authcontext'
 import axios from 'axios'
 import { userDataContext } from './UserContext'
 import { listingDataContext } from './ListingContext'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const bookingDataContext = createContext()
 
@@ -15,8 +17,11 @@ function BookingContext({children}) {
     let {getCurrentUser}=useContext(userDataContext)
     let {getListing} = useContext(listingDataContext)
     let [bookingData,setBookingData] = useState([])
+    let [booking,setBooking]=useState(false)
+    let navigate=useNavigate()
 
     const handleBooking=async(id) =>{
+      setBooking(true)
         try {
             let result = await axios.post(serverUrl + `/api/booking/create/${id}`,
                 {
@@ -26,10 +31,27 @@ function BookingContext({children}) {
                 await getListing()
                 setBookingData(result.data)
                 console.log(result.data)
+                setBooking(false)
+                navigate("/booked")
+                toast.success("Booking Succesfull")
         } catch (error) {
             console.log(error)
             setBookingData(null)
+            toast.error(error.response.data.message)
         }
+    }
+    const cancelBooking=async(id)=>{
+      try {
+        let result = await axios.delete(serverUrl + `/api/booking/cancel/${id}`,
+          {withCredentials:true})
+          await getCurrentUser() 
+          await getListing()
+          console.log(result.data)
+          toast.success("Cancel Booking Successful")
+      } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+      }
     }
 
     let value={
@@ -38,7 +60,9 @@ function BookingContext({children}) {
         total,setTotal,
         night,setNight,
         bookingData,setBookingData,
-        handleBooking
+        handleBooking,
+        cancelBooking,
+        booking,setBooking,
     }
   return (
     <div>
