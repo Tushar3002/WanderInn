@@ -136,24 +136,26 @@ export const ratingListing= async(req,res)=>{
   }
 }
 
-export const search=async(req,res)=>{
+export const search = async (req, res) => {
   try {
-    const {query} = req.body;
+    const { query } = req.query;
 
-    if(!query){
-      return res.status(400).json({message:"Search query is required"});
+    // ✅ If query is empty, just return an empty array (or 200 with all listings if you prefer)
+    if (!query || !query.trim()) {
+      return res.status(200).json([]);
     }
 
     const listing = await Listing.find({
-      $or:[
-        { landmark: {$regex:query,$options:"i"}},
-        { city: {$regex:query,$options:"i"}},
-        { title: {$regex:query,$options:"i"}},
+      $or: [
+        { landmark: { $regex: query, $options: "i" } },
+        { city: { $regex: query, $options: "i" } },
+        { title: { $regex: query, $options: "i" } },
       ],
     });
-    return res.status(200).json(listing)
+
+    return res.status(200).json(listing);
   } catch (error) {
-    console.log("search Error : ",error)
-    return res.status(500).json({message:"Internal Server Error"})
+    console.log("search Error : ", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};
