@@ -20,7 +20,7 @@ const UserSchema=new mongoose.Schema({
     booking:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Listing"
-    }]
+    }],
 },{timestamps:true})
 
 const User = mongoose.model("User",UserSchema)
