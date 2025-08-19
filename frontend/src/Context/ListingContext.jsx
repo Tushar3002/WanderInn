@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState, useContext, createContext, useEffect } from 'react'
-import { authDataContext } from './Authcontext'
+import { authDataContext } from './AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
