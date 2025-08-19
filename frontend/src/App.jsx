@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Home from './pages/Home'
-import ListingPage1 from './pages/listingPage1'
+import ListingPage1 from './pages/ListingPage1'
 import ListingPage2 from './pages/ListingPage2'
 import ListingPage3 from './pages/ListingPage3'
 import { useContext } from 'react'
