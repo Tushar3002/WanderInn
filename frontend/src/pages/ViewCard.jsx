@@ -7,7 +7,7 @@ import {userDataContext} from '../Context/UserContext'
 import { useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import axios from 'axios';
-import { authDataContext } from '../Context/authcontext';
+import { authDataContext } from '../Context/AuthContext';
 import { bookingDataContext } from '../Context/BookingContext';
 import { toast } from 'react-toastify';
 
