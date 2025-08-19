@@ -3,7 +3,7 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa";
-import { authDataContext } from '../Context/authcontext';
+import { authDataContext } from '../Context/AuthContext';
 import axios from 'axios';
 import { userDataContext } from '../Context/UserContext';
 import { toast } from 'react-toastify';
