@@ -13,7 +13,7 @@ import { IoBedOutline } from "react-icons/io5";
 import { FaTreeCity } from "react-icons/fa6";
 import { BiBuildingHouse } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { authDataContext } from "../Context/authcontext";
+import { authDataContext } from "../Context/AuthContext";
 import axios from "axios";
 import { userDataContext } from "../Context/UserContext";
 import { listingDataContext } from "../Context/ListingContext";
