@@ -1,0 +1,26 @@
+npm i express mongoose nodemon bcryptjs cors dotenv jsonwebtoken cookie-parser
+
+index.js created
+
+MongoDB Atlas
+
+config > db,js
+
+model > user.model.js
+
+controllers > auth.controller.js
+
+routes>auth.routes.js
+
+config>token
+
+
+in Frontend 
+
+npm create vite@latest
+
+npm install -D tailwindcss@3 postcss autoprefixer
+npx tailwindcss init -p
+
+multer taking file path
+cloudinary making url
