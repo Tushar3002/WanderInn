@@ -25,12 +25,12 @@ router.delete("/users/:id", isAuth, verifyAdmin, deleteUser);
 router.patch("/users/:id/toggle-admin", isAuth, verifyAdmin, toggleAdmin);
 router.delete("/listings/:id", isAuth, verifyAdmin, deleteListing);
 
-// optional: combined dashboard route
+
 router.get("/dashboard", isAuth, verifyAdmin, async (req, res) => {
   res.json({ message: "Welcome to Admin Dashboard" });
 });
 
-// Admin Login
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generate token
+    
     const token = jwt.sign(
       { userId: user._id, isAdmin: true },
       process.env.JWT_SECRET,
